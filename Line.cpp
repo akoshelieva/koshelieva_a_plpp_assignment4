@@ -10,7 +10,7 @@ NLine::Line_* NLine::Line_::deserialize(const std::string& data) {
         return NLine::TextLine::deserialize(data);
     }
     if (data.rfind("CHECK:", 0) == 0) {
-        return NLine::Checklist::deserialize(data);
+        return NLine::ChecklistLine::deserialize(data);
     }
     if (data.rfind("CONTACT:", 0) == 0) {
         return NLine::ContactLine::deserialize(data);

@@ -6,8 +6,8 @@
 
 class CaesarCipher {
 public:
-  using EncryptFunc = uint8_t* (*)(uint8_t*, size_t, int);
-  using DecryptFunc = uint8_t* (*)(uint8_t*, size_t, int);
+  using EncryptFunc = uint8_t* (*)(const uint8_t*, size_t, int);
+  using DecryptFunc = uint8_t* (*)(const uint8_t*, size_t, int);
 
   CaesarCipher(const std::string& dllPath);
   ~CaesarCipher();

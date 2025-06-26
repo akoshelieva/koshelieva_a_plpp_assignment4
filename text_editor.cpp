@@ -27,7 +27,7 @@ void TextEditor::saveState() {
     }
     changes.push_back(serializeAll());
     changes_index = changes.size() - 1;
-    if (changes.size() > MAX_changes) {
+    if (changes.size() > MAX_CHANGES) {
         changes.erase(changes.begin());
         changes_index--;
     }
@@ -62,7 +62,7 @@ void TextEditor::addTextLine(const std::string& text) {
 
 void TextEditor::addChecklistLine(const std::string& item, bool checked) {
     saveState();
-    lines.push_back(new NLine::Checklist(item, checked));
+    lines.push_back(new NLine::ChecklistLine(item, checked));
 }
 
 void TextEditor::addContactLine(const std::string& name, const std::string& surname, const std::string& email) {
@@ -189,7 +189,7 @@ void TextEditor::searchText(const std::string& text_to_find) const {
 }
 
 void TextEditor::loadEncrypted(const std::string& filename, int key) {
-    CaesarCipher cipher("caesar.dll");
+    CaesarCipher cipher("libceasar.dll");
 
     std::ifstream in(filename, std::ios::binary);
     if (!in) {
@@ -218,10 +218,11 @@ void TextEditor::loadEncrypted(const std::string& filename, int key) {
 }
 
 void TextEditor::saveEncrypted(const std::string& filename, int key) {
-    CaesarCipher cipher("caesar.dll");
+    CaesarCipher cipher("libceasar.dll");
     std::string serialized = serializeAll();
-    size_t len = serialized.length();
+    size_t len = serialized.size();
     if (len == 0) return;
+
     uint8_t* encrypted = cipher.encrypt(reinterpret_cast<const uint8_t*>(serialized.c_str()), len, key);
     if (!encrypted) {
         throw std::runtime_error("Encryption failed");

@@ -7,6 +7,10 @@
 #include <fstream>
 #include <stdexcept>
 
+namespace NLine {
+    class Line_;
+}
+
 class Line_ {
 public:
     virtual void print() const = 0;
@@ -24,7 +28,7 @@ public:
     static TextLine* deserialize(const std::string& data);
 };
 
-class Checklist : public Line_ {
+class ChecklistLine : public Line_ {
     std::string item;
     bool checked;
 public:
@@ -48,7 +52,7 @@ class CaesarCipher;
 
 class TextEditor {
 private:
-    std::vector<Line*> lines;
+    std::vector<NLine::Line_*> lines;
     std::vector<std::string> changes;
     std::string clipboard;
     size_t changes_index;
@@ -63,15 +67,15 @@ public:
     ~TextEditor();
 
     void addTextLine(const std::string& text);
-    void addChecklist(const std::string& item, bool checked);
+    void addChecklistLine(const std::string& item, bool checked);
     void addContactLine(const std::string& name, const std::string& surname, const std::string& email);
-    void insertLine(int index, const std::string& serializedLine);
-    void deleteLine(int index);
-    void replaceLine(int index, const std::string& serializedLine);
+    void insertLine(size_t index, const std::string &serializedLine);
+    void deleteLine(size_t index);
+    void replaceLine(size_t index, const std::string &serializedLine);
     void saveToFile(const std::string& filename);
     void loadFromFile(const std::string& filename);
-    void copyLine(int index);
-    void pasteLine(int index);
+    void copyLine(size_t index);
+    void pasteLine(size_t index);
     void undo();
     void redo();
     void printAll() const;

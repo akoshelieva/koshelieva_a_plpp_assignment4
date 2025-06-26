@@ -2,19 +2,19 @@
 #include <iostream>
 
 namespace NLine {
-    Checklist::Checklist(const std::string& i, bool c) : item(i), checked(c) {}
+    ChecklistLine::ChecklistLine(const std::string& i, bool c) : item(i), checked(c) {}
 
-    void Checklist::print() const {
+    void ChecklistLine::print() const {
         std::cout << "[ " << (checked ? "+" : "-") << " ] " << item << std::endl;
     }
 
-    std::string Checklist::serialize() const {
+    std::string ChecklistLine::serialize() const {
         return "CHECK:" + std::string(checked ? "+" : "-") + ':' + item;
     }
 
-    Checklist* Checklist::deserialize(const std::string& data) {
+    ChecklistLine* ChecklistLine::deserialize(const std::string& data) {
         bool check = (data[6] == '+');
         std::string item = data.substr(8);
-        return new Checklist(item, check);
+        return new ChecklistLine(item, check);
     }
 }
